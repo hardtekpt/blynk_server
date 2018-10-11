@@ -10,6 +10,7 @@ const serverPort = 8080;
 
 // Xiaomi bulb IP
 const bulbIP = "192.168.1.8";
+const bulbToken = "5d51c5e2bb0beb6360eb4cb19d5f5363";
 
 // Blynk config
 const blynk = new Blynk.Blynk(
@@ -50,7 +51,7 @@ bed.on("write", function(param) {
 
 power.on("write", function(param) {
   miio
-    .device({ address: bulbIP })
+    .device({ address: bulbIP, token: bulbToken })
     .then(device => {
       device
         .setPower(param == 1 ? true : false)
@@ -65,7 +66,7 @@ power.on("write", function(param) {
 
 brightness.on("write", param => {
   miio
-    .device({ address: bulbIP })
+    .device({ address: bulbIP, token: bulbToken })
     .then(device => {
       device
         .setBrightness(parseInt(param, 10))
@@ -81,7 +82,7 @@ brightness.on("write", param => {
 temperature.on("write", param => {
   const temp = `${param}k`;
   miio
-    .device({ address: bulbIP })
+    .device({ address: bulbIP, token: bulbToken })
     .then(device => {
       device.setColor(temp).then(color => {
         device.destroy();
